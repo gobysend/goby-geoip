@@ -1,6 +1,6 @@
 package com.gobysend.geoip.controllers;
 
-import com.gobysend.geoip.GeoIPDatabase;
+import com.gobysend.geoip.helpers.GeoIPDatabase;
 import com.gobysend.geoip.helpers.GeoIPResponse;
 import com.gobysend.geoip.helpers.GobyResponse;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
@@ -26,18 +26,17 @@ public class GeoIpController {
 
     private static final Logger logger = LogManager.getLogger(GeoIpController.class);
 
-    private final GeoIPDatabase database;
-
-    public GeoIpController(@Autowired GeoIPDatabase database) {
-        this.database = database;
+    public GeoIpController() {
     }
 
     @GetMapping(value = PATH_RESOLVE_IP_TO_LOCATION, produces = MediaType.APPLICATION_JSON_VALUE)
     public GobyResponse resolve(@RequestParam(value = PARAM_IP) String ip)
     {
         try {
+            GeoIPDatabase database = GeoIPDatabase.getInstance();
+
             InetAddress ipAddress = InetAddress.getByName(ip);
-            CityResponse response = this.database.getReader().city(ipAddress);
+            CityResponse response = database.getReader().city(ipAddress);
 
             Country country = response.getCountry();
             City city = response.getCity();
