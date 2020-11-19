@@ -1,5 +1,7 @@
-# goby-geoip
-Resolve IP to location
+# Spring Boot GeoIP
+Spring boot application which loads MaxMind (GeoLite2) database .mmdb into memory when application started.
+Every query will look into the shared static memory.
+The database in memory will be auto-refresh daily.
 
 # To build application, please install Maven and trigger following command
 ```bash
